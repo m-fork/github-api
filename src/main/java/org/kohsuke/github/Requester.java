@@ -26,7 +26,7 @@ package org.kohsuke.github;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.WillClose;
@@ -63,7 +63,7 @@ import static java.util.Arrays.asList;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.FINEST;
 import static java.util.logging.Level.INFO;
-import static org.apache.commons.lang.StringUtils.defaultString;
+import static org.apache.commons.lang3.StringUtils.defaultString;
 import static org.kohsuke.github.GitHub.MAPPER;
 
 /**
@@ -167,6 +167,14 @@ class Requester {
 
     public Requester with(String key, Collection<String> value) {
         return _with(key, value);
+    }
+
+    public Requester withLogins(String key, Collection<GHUser> users) {
+        List<String> names = new ArrayList<String>(users.size());
+        for (GHUser a : users) {
+            names.add(a.getLogin());
+        }
+        return with(key,names);
     }
 
     public Requester with(String key, Map<String, String> value) {
